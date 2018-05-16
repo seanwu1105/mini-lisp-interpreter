@@ -12,20 +12,23 @@ As a simplified language, Mini-LISP has only three types (Boolean, number and fu
 
 ## Features
 
-* Basic Features
-    * [x] Syntax Validation
-    - [x] Print
-    - [x] Numerical Operations
-    - [x] Logical Operations
-    - [x] if Expression
-    - [x] Variable Definition
-    - [ ] Function
-    - [ ] Named Function
-- Bonus Features
-    - [ ] Recursion
-    - [ ] Type Checking
-    - [ ] Nested Function
-    - [ ] First-class Function 
+### Basic Features
+
+- [x] Syntax Validation
+- [x] Print
+- [x] Numerical Operations
+- [x] Logical Operations
+- [x] if Expression
+- [x] Variable Definition
+- [ ] Function
+- [ ] Named Function
+
+### Bonus Features
+
+- [ ] Recursion
+- [ ] Type Checking
+- [ ] Nested Function
+- [ ] First-class Function 
 
 ## Type Definition
 

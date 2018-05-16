@@ -7,8 +7,8 @@ program : stmt+
 ?print_stmt : "(" "print-num" exp ")"   -> print_num
     | "(" "print-bool" exp ")"          -> print_bool
 
-?exp : BOOL_VAL     -> bool_val
-    | SIGNED_INT    -> signed_int
+?exp : BOOL_VAL
+    | SIGNED_INT
     | variable
     | num_op
     | logical_op

@@ -7,10 +7,10 @@ def main():
     with open('grammar.g') as f:
         parser = Lark(f, start='program', parser='lalr', lexer='contextual')
 
-    with open('test_data/06_1.lsp') as f:
+    with open('test_data/04_2.lsp') as f:
         text = f.read()
 
-    text = '((fun (x) (+ x 1)) 3)'
+    # text = '(+ 1 2 3) \n (* 4 5 6)'
 
     try:
         tree = parser.parse(text)
@@ -18,6 +18,7 @@ def main():
         print('syntax error')
     else:
         print(tree.pretty())
+        Interpreter().interpret(tree)
         
 
 
