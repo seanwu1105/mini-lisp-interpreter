@@ -10,6 +10,23 @@ LISP is an ancient programming language based on S-expressions and lambda calcul
 ```
 As a simplified language, Mini-LISP has only three types (Boolean, number and function) and a few operations.
 
+## Features
+
+* Basic Features
+    * [x] Syntax Validation
+    - [x] Print
+    - [x] Numerical Operations
+    - [x] Logical Operations
+    - [x] if Expression
+    - [x] Variable Definition
+    - [ ] Function
+    - [ ] Named Function
+- Bonus Features
+    - [ ] Recursion
+    - [ ] Type Checking
+    - [ ] Nested Function
+    - [ ] First-class Function 
+
 ## Type Definition
 
 * Boolean: Boolean type includes two values, `#t` for true and `#f` for false.

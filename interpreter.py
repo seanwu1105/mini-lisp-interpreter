@@ -1,0 +1,2 @@
+class Interpreter(object):
+    pass

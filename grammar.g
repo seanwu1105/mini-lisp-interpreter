@@ -1,4 +1,4 @@
-?program : stmt+
+program : stmt+
 
 ?stmt : exp
     | def_stmt
@@ -7,8 +7,8 @@
 ?print_stmt : "(" "print-num" exp ")"   -> print_num
     | "(" "print-bool" exp ")"          -> print_bool
 
-?exp : BOOL_VAL
-    | SIGNED_INT
+?exp : BOOL_VAL     -> bool_val
+    | SIGNED_INT    -> signed_int
     | variable
     | num_op
     | logical_op
@@ -31,17 +31,18 @@
 ?or_op  : "(" "or" exp exp+ ")"
 not_op : "(" "not" exp ")"
 
-?def_stmt : "(" "define" variable exp ")"
-?variable : ID
+?def_stmt : "(" "define" new_variable exp ")"
+new_variable : ID
+variable : ID
 
-?fun_exp  : "(" "fun" fun_ids fun_body ")"
-?fun_ids  : "(" ID* ")"
-?fun_body : exp
-?fun_call : "(" fun_exp param* ")"
-    | "(" fun_name param* ")"
-?param    : exp
+?fun_exp : "(" "fun" fun_ids fun_body ")"
+fun_ids  : "(" ID* ")"
+fun_body : exp
+?fun_call : "(" fun_exp param* ")"  -> anony_fun_call
+    | "(" fun_name param* ")"       -> named_fun_call
+param    : exp
 ?last_exp : exp
-?fun_name : ID
+fun_name : ID
 
 ?if_exp : "(" "if" test_exp than_exp else_exp ")"
 ?test_exp : exp
