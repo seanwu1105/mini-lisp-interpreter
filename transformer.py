@@ -37,6 +37,7 @@ class LISPTransformer(Transformer):
         return '#t' if self.get_value(items[0]) < self.get_value(items[1]) else '#f'
 
     def equal(self, items):
+        # XXX! all items should be equal!
         return '#t' if self.get_value(items[0]) == self.get_value(items[1]) else '#f'
 
     def and_op(self, items):
