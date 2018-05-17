@@ -91,16 +91,16 @@ class GlobalEnvironment(Environment):
         return any(args)
 
     def not_op(self, arg):
-        self.boolean_type_checker(arg)
+        self.boolean_type_checker([arg])
         return not arg
 
     def number_type_checker(self, args):
-        if any(not isinstance(arg, int) for arg in args):
+        if not all(type(arg) is int for arg in args):
             print("Type Error: Expect 'number' but got 'boolean'.")
             exit(1)
 
     def boolean_type_checker(self, args):
-        if any(not isinstance(arg, bool) for arg in args):
+        if not all(type(arg) is bool for arg in args):
             print("Type Error: Expect 'boolean' but got 'number'.")
             exit(1)
 
