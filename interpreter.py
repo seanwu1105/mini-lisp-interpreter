@@ -162,15 +162,20 @@ def interpret(node, environment=GlobalEnvironment()):
         # fun_exp : ( fun_ids fun_body )
         elif node.data == 'fun_exp':
             args = interpret(node.children[0])
-            body = node.children[-1]
+            body = interpret(node.children[-1])
             return Function(args, body, environment)
 
         # simply return all arguments (ids)
         elif node.data == 'fun_ids':
             return node.children
 
+        # fun_body : def_stmt* exp
         elif node.data == 'fun_body':
-            pass
+            # deal with define statements
+            for def_stmt in node.children[:-1]:
+                interpret(def_stmt)
+            # return the expresion (the actual function body)
+            return node.children[-1]
 
         # get the user-defined function with arguments and then execute it
         elif node.data == 'fun_call':
