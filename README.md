@@ -51,7 +51,7 @@ python mini_lisp.py < filename.lsp
 ## Dependencies
 
 * Python3
-* Lark Parser
+* [Lark Parser](https://github.com/lark-parser/lark)
 
 ```
 pip install lark-parser
