@@ -30,6 +30,29 @@ As a simplified language, Mini-LISP has only three types (Boolean, number and fu
 - [x] Nested Function
 - [x] First-class Function 
 
+## Usage
+
+1. Clone the project
+```
+git clone https://gitlab.com/GLaDOS1105/mini-lisp-interpreter.git
+```
+2. Change directory to project folder
+```
+cd mini-lisp-interpreter/
+```
+3. Feed the Mini-LISP source codes into the interpreter as standard input file
+```
+python mini_lisp.py < filename.lsp
+```
+
+## Dependencies
+
+* Python3
+* Lark Parser
+```
+pip install lark-parser
+```
+
 ## Type Definition
 
 * Boolean: Boolean type includes two values, `#t` for true and `#f` for false.
@@ -179,7 +202,10 @@ PLUS ::= (+ EXP EXP+)
 
 > Behavior: return sum of all `EXP` inside.
 
-> Example: `(+ 1 2 3 4)` → 10
+> Example:
+> ``` lisp
+> (+ 1 2 3 4)   ; → 10
+> ```
 
 ``` ebfn
 MINUS ::= (- EXP EXP)
@@ -187,7 +213,10 @@ MINUS ::= (- EXP EXP)
 
 > Behavior: return the result that the 1st `EXP` minus the 2nd `EXP`.
 
-> Example: `(- 2 1)` → 1
+> Example:
+> ``` lisp
+> (- 2 1)   ; → 1
+> ```
 
 ``` ebfn
 MULTIPLY ::= (* EXP EXP+)
@@ -195,7 +224,10 @@ MULTIPLY ::= (* EXP EXP+)
 
 > Behavior: return the product of all `EXP` inside.
 
-> Example: `(* 1 2 3 4)` → 24
+> Example:
+> ``` lisp
+> (* 1 2 3 4)   ; → 24
+> ```
 
 ``` ebfn
 DIVIDE ::= (/ EXP EXP)
@@ -203,8 +235,11 @@ DIVIDE ::= (/ EXP EXP)
 
 > Behavior: return the result that 1st `EXP` divided by 2nd `EXP`.
 
-> Example: `(/ 10 5)` → 2 <br>
-> Example: `(/ 3 2)` → 1 (just like C++)
+> Example:
+> ``` lisp
+> (/ 10 5)  ; → 2
+> (/ 3 2)   ; → 1 (just like C++)
+> ```
 
 ``` ebfn
 MODULUS ::= (mod EXP EXP)
@@ -212,7 +247,10 @@ MODULUS ::= (mod EXP EXP)
 
 > Behavior: return the modulus that 1st `EXP` divided by 2nd `EXP`.
 
-> Example: `(mod 8 5)` → 3
+> Example:
+> ``` lisp
+> (mod 8 5) ; → 3
+> ```
 
 ``` ebfn
 GREATER ::= (> EXP EXP)
@@ -220,7 +258,10 @@ GREATER ::= (> EXP EXP)
 
 > Behavior: return `#t` if 1st `EXP` greater than 2nd `EXP`. `#f` otherwise.
 
-> Example: `(> 1 2)` → `#f`
+> Example:
+> ``` lisp
+> (> 1 2)   ; → #f
+> ```
 
 ``` ebfn
 SMALLER ::= (< EXP EXP)
@@ -228,7 +269,10 @@ SMALLER ::= (< EXP EXP)
 
 > Behavior: return `#t` if 1st `EXP` smaller than 2nd `EXP`. `#f` otherwise.
 
-> Example: `(< 1 2)` → `#t`
+> Example:
+> ``` lisp
+> (< 1 2)   ; → #t
+> ```
 
 ``` ebfn
 EQUAL ::= (= EXP EXP+)
@@ -236,7 +280,10 @@ EQUAL ::= (= EXP EXP+)
 
 > Behavior: return `#t` if all `EXP`s are equal. `#f` otherwise.
 
-> Example: `(= (+ 1 1) 2 (/6 3))` → `#t`
+> Example:
+> ``` lisp
+> (= (+ 1 1) 2 (/6 3))  ; → #t
+> ```
 
 ### Logical Operations (`LOGICAL-OP`)
 
@@ -250,7 +297,10 @@ AND-OP ::= (and EXP EXP+)
 
 > Behavior: return `#t` if all `EXP`s are true. `#f` otherwise.
 
-> Example: `(and #t (> 2 1))` → `#t`
+> Example:
+> ``` lisp
+> (and #t (> 2 1))  ; → #t
+> ```
 
 ``` ebfn
 OR-OP ::= (or EXP EXP+)
@@ -258,7 +308,10 @@ OR-OP ::= (or EXP EXP+)
 
 > Behavior: return `#t` if at least one `EXP` is true. `#f` otherwise.
 
-> Example: `(or (> 1 2) #f)` → `#f`
+> Example:
+> ``` lisp
+> (or (> 1 2) #f)   ; → #f
+> ```
 
 ``` ebfn
 NOT-OP ::= (not EXP)
@@ -266,7 +319,10 @@ NOT-OP ::= (not EXP)
 
 > Behavior: return `#t` if `EXP` is false. `#f` otherwise.
 
-> Example: `(not (> 1 2))` → `#t`
+> Example:
+> ``` lisp
+> (not (> 1 2)) ; → #t
+> ```
 
 ### define Statement (`DEF-STMT`)
 
@@ -280,9 +336,11 @@ VARIABLE ::= id
 
 > Behavior: Define a variable named `id` whose value is `EXP`.
 
-> Example: <br>
-> `(define x 5)` <br>
-> `(+ x 1)` → 6
+> Example:
+> ``` lisp
+> (define x 5)
+> (+ x 1)  ; → 6
+> ```
 
 > Note: Redefining is not allowed.
 
@@ -299,18 +357,20 @@ PARAM ::= EXP
 FUN-NAME ::= id
 ```
 
-> Behavior:
+> Behavior: <br>
 > `FUN-EXP` defines a function. When a function is called, bind `FUN-ID`s to `PARAM`s, just like the define statement. If an id has been defined outside this function, prefer the definition inside the `FUN-EXP`. The variable definitions inside a function should not affect the outer scope. A `FUN-CALL` returns the evaluated result of `FUN-BODY`. Note that variables used in `FUN-BODY` should be bound to
 `PARAM`s.
 
-> Examples: <br>
-> `((fun (x) (+ x 1)) 2)` → 3 <br>
-> `(define foo (fun () 0))` <br>
-> `(foo)` → 0 <br>
-> `(define x 1)` <br>
-> `(define bar (fun (x y) (+ x y)))` <br>
-> `(bar 2 3)` → 5 <br>
-> `x` → 1
+> Examples:
+> ``` lisp
+> ((fun (x) (+ x 1)) 2) ; → 3
+> (define foo (fun () 0))
+> (foo) ; → 0
+> (define x 1)
+> (define bar (fun (x y) (+ x y)))
+> (bar 2 3) ; → 5
+> x ; → 1
+> ```
 
 # `if` Expression
 
@@ -323,6 +383,73 @@ ELSE-EXP ::= EXP
 
 > Behavior: When `TEST-EXP` is true, returns `THEN-EXP`. Otherwise, returns `ELSE-EXP`.
 
-> Example: <br>
-> `(if (= 1 0) 1 2)` → 2 <br>
-> `(if #t 1 2)` → 1
+> Example:
+> ``` lisp
+> (if (= 1 0) 1 2)  ; → 2
+> (if #t 1 2)   ; → 1
+> ```
+
+## Bonus Features
+
+### Recursion
+
+The interpreter is able to handle recursive function call.
+
+``` lisp
+(define f
+    (fun (x) (if (= x 1)
+                1
+                (* x (f (- x 1))))))
+(f 4)   ; → 24
+```
+
+### Type Checking
+
+For type specifications of operations, please check out the table below:
+
+|             Op            |       Parameter Type      |             Output Type             |
+|:-------------------------:|:-------------------------:|:-----------------------------------:|
+| `+`, `-`, `*`, `/`, `mod` |         Number(s)         |                Number               |
+|       `<`, `>`, `=`       |         Number(s)         |               Boolean               |
+|     `and`, `or`, `not`    |         Boolean(s)        |               Boolean               |
+|            `if`           | Boolean(s) for `test-exp` | Depend on `then-exp` and `else-exp` |
+|           `fun`           |            Any            |               Function              |
+|       Function call       |            Any            | Depend on `fun-body` and parameters |
+
+``` lisp
+(> 1 #t)    ; Type Error: Expect 'number' but got 'boolean'.
+```
+
+### Nested Function
+
+There could be a function inside another function. The inner one is able to access the local variables of the outer function.
+
+> The syntax rule of `fun-body` should be redefined to
+> ```
+> fun-body ::= def-stmt* exp
+> ```
+
+``` lisp
+(define dist-square
+    (fun (x y)
+        (define square
+            (fun (x) (* x x)))
+        (+ (square x) (square y))))
+```
+
+### First-Class Function
+
+Functions can be passed like other variables. Furthermore, it can keep its environment.
+
+``` lisp
+(define chose
+    (fun (chose-fun x y)
+        (if (chose-fun x y) x y)))
+(chose (fun (x y) (> x y)) 2 1) ; → 2
+
+(define add-x
+    (fun (x)
+        (fun (y) (+ x y))))
+(define f (add-x 5))
+(f 3)   ; → 8
+```
