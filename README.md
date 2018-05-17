@@ -20,13 +20,13 @@ As a simplified language, Mini-LISP has only three types (Boolean, number and fu
 - [x] Logical Operations
 - [x] if Expression
 - [x] Variable Definition
-- [ ] Function
-- [ ] Named Function
+- [x] Function
+- [x] Named Function
 
 ### Bonus Features
 
-- [ ] Recursion
-- [ ] Type Checking
+- [x] Recursion
+- [x] Type Checking
 - [ ] Nested Function
 - [ ] First-class Function 
 
@@ -129,7 +129,6 @@ FUN-IDs ::= (id*)
 FUN-BODY ::= EXP
 FUN-CALL ::= (FUN-EXP PARAM*) | (FUN-NAME PARAM*)
 PARAM ::= EXP
-LAST-EXP ::= EXP
 FUN-NAME ::= id
 IF-EXP ::= (if TEST-EXP THAN-EXP ELSE-EXP)
 TEST-EXP ::= EXP
@@ -297,7 +296,6 @@ FUN-BODY ::= EXP
 FUN-CALL ::= (FUN-EXP PARAM*)
     | (FUN-NAME PARAM*)
 PARAM ::= EXP
-LAST-EXP ::= EXP
 FUN-NAME ::= id
 ```
 

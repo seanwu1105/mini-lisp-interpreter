@@ -31,18 +31,16 @@ program : stmt+
 ?or_op  : "(" "or" exp exp+ ")"
 not_op : "(" "not" exp ")"
 
-?def_stmt : "(" "define" new_variable exp ")"
-new_variable : ID
-variable : ID
+?def_stmt : "(" "define" variable exp ")"
+?variable : ID
 
 ?fun_exp : "(" "fun" fun_ids fun_body ")"
 fun_ids  : "(" ID* ")"
-fun_body : exp
-?fun_call : "(" fun_exp param* ")"  -> anony_fun_call
-    | "(" fun_name param* ")"       -> named_fun_call
-param    : exp
-?last_exp : exp
-fun_name : ID
+?fun_body : exp
+fun_call : "(" fun_exp param* ")"
+    | "(" fun_name param* ")"
+?param    : exp
+?fun_name : ID
 
 ?if_exp : "(" "if" test_exp than_exp else_exp ")"
 ?test_exp : exp

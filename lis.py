@@ -101,13 +101,15 @@ class Env(dict):
     "An environment: a dict of {'var':val} pairs, with an outer Env."
 
     def __init__(self, parms=(), args=(), outer=None):
-        print(parms, args)
         self.update(zip(parms, args))
         self.outer = outer
 
-    def find(self, var):
+    def find(self, name):
         "Find the innermost Env where var appears."
-        return self if var in self else self.outer.find(var)
+        if name not in self and self.outer is None:
+            print("Name Error: %s is not defined" % name)
+            exit(1)
+        return self if name in self else self.outer.find(name)
 
 
 global_env = standard_env()
@@ -147,40 +149,50 @@ class Procedure(object):
 # eval
 
 
-def eval(x, env=global_env):
+def eval(node, env=global_env):
     "Evaluate an expression in an environment."
-    if isinstance(x, Symbol):      # variable reference
-        r = env.find(x)[x]
+    # convert '#t' to Python True
+    if node == '#t':
+        return True
+    # convert '#f' to Python False
+    if node == '#f':
+        return False
+    if isinstance(node, Symbol):      # variable reference
+        r = env.find(node)[node]
         return r
-    elif not isinstance(x, List):  # constant literal
-        return x
-    # elif x[0] == '#t':
-    #     return True
-    # elif x[0] == '#f':
-    #     return False
-    elif x[0] == 'quote':          # (quote exp)
-        (_, exp) = x
+    elif not isinstance(node, List):  # constant literal
+        return node
+    elif node[0] == 'quote':          # (quote exp)
+        (_, exp) = node
         return exp
-    elif x[0] == 'if':             # (if test conseq alt)
-        (_, test, conseq, alt) = x
+    elif node[0] == 'if':             # (if test conseq alt)
+        (_, test, conseq, alt) = node
         exp = (conseq if eval(test, env) else alt)
         return eval(exp, env)
-    elif x[0] == 'define':         # (define var exp)
-        (_, var, exp) = x
+    elif node[0] == 'define':         # (define var exp)
+        (_, var, exp) = node
         env[var] = eval(exp, env)
-    elif x[0] == 'set!':           # (set! var exp)
-        (_, var, exp) = x
+    elif node[0] == 'set!':           # (set! var exp)
+        (_, var, exp) = node
         env.find(var)[var] = eval(exp, env)
-    elif x[0] == 'lambda':         # (lambda (var...) body)
-        parms = x[1]
-        body = x[-1]
+    elif node[0] == 'fun':         # (fun (var...) body)
+        parms = node[1]
+        body = node[-1]
         return Procedure(parms, body, env)
     else:                          # (proc arg...)
-        proc = eval(x[0], env)
-        args = tuple(eval(exp, env) for exp in x[1:])
+        proc = eval(node[0], env)
+        args = tuple(eval(exp, env) for exp in node[1:])
         return proc(*args)
 
 
-tree = parse('(print-bool #f)')
+# tree = parse('(define bar (fun (x) (+ x 1)))')
+# print(tree)
+# val = eval(tree)
+
+tree = parse('(define bar-z (fun () 2))')
+print(tree)
+val = eval(tree)
+
+tree = parse('(print-num (bar-z))')
 print(tree)
 val = eval(tree)

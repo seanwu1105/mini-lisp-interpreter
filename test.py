@@ -1,1 +1,1 @@
-print()
+print(3 + False)
