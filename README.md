@@ -33,14 +33,17 @@ As a simplified language, Mini-LISP has only three types (Boolean, number and fu
 ## Usage
 
 1. Clone the project
+
 ```
 git clone https://gitlab.com/GLaDOS1105/mini-lisp-interpreter.git
 ```
 2. Change directory to project folder
+
 ```
 cd mini-lisp-interpreter/
 ```
 3. Feed the Mini-LISP source codes into the interpreter as standard input file
+
 ```
 python mini_lisp.py < filename.lsp
 ```
@@ -49,6 +52,7 @@ python mini_lisp.py < filename.lsp
 
 * Python3
 * Lark Parser
+
 ```
 pip install lark-parser
 ```
