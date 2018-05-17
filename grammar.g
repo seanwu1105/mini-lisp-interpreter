@@ -36,7 +36,7 @@ not_op : "(" "not" exp ")"
 
 ?fun_exp : "(" "fun" fun_ids fun_body ")"
 fun_ids  : "(" ID* ")"
-?fun_body : exp
+?fun_body : def_stmt* exp
 fun_call : "(" fun_exp param* ")"
     | "(" fun_name param* ")"
 ?param    : exp

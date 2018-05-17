@@ -92,12 +92,12 @@ class GlobalEnvironment(Environment):
         self.boolean_type_checker(arg)
         return not arg
 
-    def number_type_checker(self, *args):
+    def number_type_checker(self, args):
         if any(not isinstance(arg, int) for arg in args):
             print("Type Error: Expect 'number' but got 'boolean'.")
             exit(1)
 
-    def boolean_type_checker(self, *args):
+    def boolean_type_checker(self, args):
         if any(not isinstance(arg, bool) for arg in args):
             print("Type Error: Expect 'boolean' but got 'number'.")
             exit(1)
@@ -168,6 +168,9 @@ def interpret(node, environment=GlobalEnvironment()):
         # simply return all arguments (ids)
         elif node.data == 'fun_ids':
             return node.children
+
+        elif node.data == 'fun_body':
+            pass
 
         # get the user-defined function with arguments and then execute it
         elif node.data == 'fun_call':
