@@ -457,3 +457,8 @@ Functions can be passed like other variables. Furthermore, it can keep its envir
 (define f (add-x 5))
 (f 3)   ; → 8
 ```
+
+## References
+
+* [Ruslan's Blog - Let’s Build A Simple Interpreter](https://ruslanspivak.com/)
+* [Peter@Norvig.com - lispy](http://norvig.com/lispy.html)
