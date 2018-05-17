@@ -30,6 +30,8 @@ class Environment(dict):
 
 
 class GlobalEnvironment(Environment):
+    """ The default symbol table. """
+
     def __init__(self):
         super().__init__()
         self.update({
@@ -104,7 +106,7 @@ class GlobalEnvironment(Environment):
 
 
 class Function(object):
-    """ A user-defined Scheme function. """
+    """ A user-defined scheme function. """
 
     def __init__(self, args, body, environment=GlobalEnvironment()):
         self.args, self.body, self.environment = args, body, environment
@@ -147,7 +149,7 @@ def interpret(node, environment=GlobalEnvironment()):
         elif node.data == 'if_exp':
             (test, then, els) = node.children
             test_res = interpret(test, environment)
-            # type checking
+            # type checking -> test_exp should be boolean
             if not isinstance(test_res, bool):
                 print("Type Error: Expect 'boolean' but got 'number'.")
                 exit(1)
