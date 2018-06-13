@@ -6,7 +6,7 @@ import interpreter
 
 
 def main():
-    with open('grammar.g') as f:
+    with open('grammar.lark') as f:
         parser = Lark(f, start='program', parser='lalr', lexer='contextual')
     text = sys.stdin.read()
     try:
