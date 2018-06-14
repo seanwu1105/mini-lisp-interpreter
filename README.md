@@ -37,11 +37,13 @@ As a simplified language, Mini-LISP has only three types (Boolean, number and fu
 ```
 git clone https://gitlab.com/GLaDOS1105/mini-lisp-interpreter.git
 ```
+
 2. Change directory to project folder
 
 ```
 cd mini-lisp-interpreter/
 ```
+
 3. Feed the Mini-LISP source codes into the interpreter as standard input file
 
 ```
