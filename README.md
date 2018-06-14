@@ -32,19 +32,19 @@ As a simplified language, Mini-LISP has only three types (Boolean, number and fu
 
 ## Usage
 
-### Clone the project
+Clone the project
 
 ```
 git clone https://gitlab.com/GLaDOS1105/mini-lisp-interpreter.git
 ```
 
-### Change directory to project folder
+Change directory to project folder
 
 ```
 cd mini-lisp-interpreter/
 ```
 
-### Feed the Mini-LISP source codes into the interpreter as standard input file
+Feed the Mini-LISP source codes into the interpreter as standard input file
 
 ```
 python mini_lisp.py < filename.lsp
