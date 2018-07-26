@@ -5,48 +5,50 @@ Mini-LISP is the subset of LISP. You can find the grammar rules in the README.md
 ## Overview
 
 LISP is an ancient programming language based on S-expressions and lambda calculus. All operations in Mini-LISP are written in parenthesized prefix notation. For example, a simple mathematical formula `(1 + 2) * 3` written in Mini-LISP is:
+
 ``` lisp
 (* (+ 1 2) 3)
 ```
+
 As a simplified language, Mini-LISP has only three types (Boolean, number and function) and a few operations.
 
 ## Features
 
 ### Basic Features
 
-- [x] Syntax Validation
-- [x] Print
-- [x] Numerical Operations
-- [x] Logical Operations
-- [x] if Expression
-- [x] Variable Definition
-- [x] Function
-- [x] Named Function
+* [x] Syntax Validation
+* [x] Print
+* [x] Numerical Operations
+* [x] Logical Operations
+* [x] if Expression
+* [x] Variable Definition
+* [x] Function
+* [x] Named Function
 
 ### Bonus Features
 
-- [x] Recursion
-- [x] Type Checking
-- [x] Nested Function
-- [x] First-class Function 
+* [x] Recursion
+* [x] Type Checking
+* [x] Nested Function
+* [x] First-class Function
 
 ## Usage
 
 Clone the project
 
-```
+``` bash
 git clone https://gitlab.com/GLaDOS1105/mini-lisp-interpreter.git
 ```
 
 Change directory to project folder
 
-```
+``` bash
 cd mini-lisp-interpreter/
 ```
 
 Feed the Mini-LISP source codes into the interpreter as standard input file
 
-```
+``` bash
 python mini_lisp.py < filename.lsp
 ```
 
@@ -55,7 +57,7 @@ python mini_lisp.py < filename.lsp
 * Python3
 * [Lark Parser](https://github.com/lark-parser/lark)
 
-```
+``` bash
 pip install lark-parser
 ```
 
@@ -102,7 +104,7 @@ pip install lark-parser
 
 ### Preliminary Definitions
 
-``` ebfn
+``` ebnf
 separator ::= ‘\t’ | ‘\n’ | ‘\r’ | ‘ ’
 letter ::= [a-z]
 digit ::= [0-9]
@@ -114,13 +116,13 @@ digit ::= [0-9]
 number ::= 0 | [1-9]digit* | -[1-9]digit*
 ```
 
-> Examples: 0, 1, -23, 123456
+Examples: `0`, `1`, `-23`, `123456`
 
 ``` ebnf
 ID ::= letter (letter | digit | ‘-’)*
 ```
 
-> Examples: x, y, john, cat-food
+Examples: `x`, `y`, `john`, `cat-food`
 
 ``` ebnf
 bool-val ::= #t | #f
@@ -169,190 +171,180 @@ ELSE-EXP ::= EXP
 
 ### Program
 
-``` ebfn
+``` ebnf
 PROGRAM :: = STMT+
 STMT ::= EXP | DEF-STMT | PRINT-STMT
 ```
 
 ### Print
 
-``` ebfn
+``` ebnf
 PRINT-STMT ::= (print-num EXP)
 ```
 
-> Behavior: Print `exp` in decimal.
+Behavior: Print `exp` in decimal.
 
-``` ebfn
+``` ebnf
     | (print-bool EXP)
 ```
 
-> Behavior: Print `#t` if `EXP` is true. Print `#f`, otherwise.
+Behavior: Print `#t` if `EXP` is true. Print `#f`, otherwise.
 
 ### Expression (`EXP`)
 
-``` ebfn
+``` ebnf
 EXP ::= bool-val | number | VARIABLE
     | NUM-OP | LOGICAL-OP | FUN-EXP | FUN-CALL | IF-EXP
 ```
 
 ### Numerical Operations (`NUM-OP`)
 
-``` ebfn
+``` ebnf
 NUM-OP ::= PLUS | MINUS | MULTIPLY | DIVIDE | MODULUS |
     | GREATER | SMALLER | EQUAL
 ```
 
-```
-PLUS ::= (+ EXP EXP+)
-```
+#### `PLUS ::= (+ EXP EXP+)`
 
-> Behavior: return sum of all `EXP` inside.
+Behavior: return sum of all `EXP` inside.
 
-> Example:
-> ``` lisp
-> (+ 1 2 3 4)   ; → 10
-> ```
+Example:
 
-``` ebfn
-MINUS ::= (- EXP EXP)
+``` lisp
+(+ 1 2 3 4)   ; → 10
 ```
 
-> Behavior: return the result that the 1st `EXP` minus the 2nd `EXP`.
+#### `MINUS ::= (- EXP EXP)`
 
-> Example:
-> ``` lisp
-> (- 2 1)   ; → 1
-> ```
+Behavior: return the result that the 1st `EXP` minus the 2nd `EXP`.
 
-``` ebfn
-MULTIPLY ::= (* EXP EXP+)
+Example:
+
+``` lisp
+(- 2 1)   ; → 1
 ```
 
-> Behavior: return the product of all `EXP` inside.
+#### `MULTIPLY ::= (* EXP EXP+)`
 
-> Example:
-> ``` lisp
-> (* 1 2 3 4)   ; → 24
-> ```
+Behavior: return the product of all `EXP` inside.
 
-``` ebfn
-DIVIDE ::= (/ EXP EXP)
+Example:
+
+``` lisp
+(* 1 2 3 4)   ; → 24
 ```
 
-> Behavior: return the result that 1st `EXP` divided by 2nd `EXP`.
+#### `DIVIDE ::= (/ EXP EXP)`
 
-> Example:
-> ``` lisp
-> (/ 10 5)  ; → 2
-> (/ 3 2)   ; → 1 (just like C++)
-> ```
+Behavior: return the result that 1st `EXP` divided by 2nd `EXP`.
 
-``` ebfn
-MODULUS ::= (mod EXP EXP)
+Example:
+
+``` lisp
+(/ 10 5)  ; → 2
+(/ 3 2)   ; → 1 (just like C++)
 ```
 
-> Behavior: return the modulus that 1st `EXP` divided by 2nd `EXP`.
+#### `MODULUS ::= (mod EXP EXP)`
 
-> Example:
-> ``` lisp
-> (mod 8 5) ; → 3
-> ```
+Behavior: return the modulus that 1st `EXP` divided by 2nd `EXP`.
 
-``` ebfn
-GREATER ::= (> EXP EXP)
+Example:
+
+``` lisp
+(mod 8 5) ; → 3
 ```
 
-> Behavior: return `#t` if 1st `EXP` greater than 2nd `EXP`. `#f` otherwise.
+#### `GREATER ::= (> EXP EXP)`
 
-> Example:
-> ``` lisp
-> (> 1 2)   ; → #f
-> ```
+Behavior: return `#t` if 1st `EXP` greater than 2nd `EXP`. `#f` otherwise.
 
-``` ebfn
-SMALLER ::= (< EXP EXP)
+Example:
+
+``` lisp
+(> 1 2)   ; → #f
 ```
 
-> Behavior: return `#t` if 1st `EXP` smaller than 2nd `EXP`. `#f` otherwise.
+#### `SMALLER ::= (< EXP EXP)`
 
-> Example:
-> ``` lisp
-> (< 1 2)   ; → #t
-> ```
+Behavior: return `#t` if 1st `EXP` smaller than 2nd `EXP`. `#f` otherwise.
 
-``` ebfn
-EQUAL ::= (= EXP EXP+)
+Example:
+
+``` lisp
+(< 1 2)   ; → #t
 ```
 
-> Behavior: return `#t` if all `EXP`s are equal. `#f` otherwise.
+#### `EQUAL ::= (= EXP EXP+)`
 
-> Example:
-> ``` lisp
-> (= (+ 1 1) 2 (/6 3))  ; → #t
-> ```
+Behavior: return `#t` if all `EXP`s are equal. `#f` otherwise.
+
+Example:
+
+``` lisp
+(= (+ 1 1) 2 (/6 3))  ; → #t
+```
 
 ### Logical Operations (`LOGICAL-OP`)
 
-``` ebfn
+``` ebnf
 LOGICAL-OP ::= AND-OP | OR-OP | NOT-OP
 ```
 
-``` ebfn
-AND-OP ::= (and EXP EXP+)
+#### `AND-OP ::= (and EXP EXP+)`
+
+Behavior: return `#t` if all `EXP`s are true. `#f` otherwise.
+
+Example:
+
+``` lisp
+(and #t (> 2 1))  ; → #t
 ```
 
-> Behavior: return `#t` if all `EXP`s are true. `#f` otherwise.
+#### `OR-OP ::= (or EXP EXP+)`
 
-> Example:
-> ``` lisp
-> (and #t (> 2 1))  ; → #t
-> ```
+Behavior: return `#t` if at least one `EXP` is true. `#f` otherwise.
 
-``` ebfn
-OR-OP ::= (or EXP EXP+)
+Example:
+
+``` lisp
+(or (> 1 2) #f)   ; → #f
 ```
 
-> Behavior: return `#t` if at least one `EXP` is true. `#f` otherwise.
+#### `NOT-OP ::= (not EXP)`
 
-> Example:
-> ``` lisp
-> (or (> 1 2) #f)   ; → #f
-> ```
+Behavior: return `#t` if `EXP` is false. `#f` otherwise.
 
-``` ebfn
-NOT-OP ::= (not EXP)
+Example:
+
+``` lisp
+(not (> 1 2)) ; → #t
 ```
-
-> Behavior: return `#t` if `EXP` is false. `#f` otherwise.
-
-> Example:
-> ``` lisp
-> (not (> 1 2)) ; → #t
-> ```
 
 ### define Statement (`DEF-STMT`)
 
-``` ebfn
+``` ebnf
 DEF-STMT ::= (define id EXP)
 ```
 
-``` ebfn
+``` ebnf
 VARIABLE ::= id
 ```
 
-> Behavior: Define a variable named `id` whose value is `EXP`.
+Behavior: Define a variable named `id` whose value is `EXP`.
 
-> Example:
-> ``` lisp
-> (define x 5)
-> (+ x 1)  ; → 6
-> ```
+Example:
+
+``` lisp
+(define x 5)
+(+ x 1)  ; → 6
+```
 
 > Note: Redefining is not allowed.
 
 ### Function
 
-``` ebfn
+``` ebnf
 FUN-EXP ::= (fun FUN-IDs FUN-BODY)
 FUN-IDs ::= (id*)
 
@@ -363,39 +355,42 @@ PARAM ::= EXP
 FUN-NAME ::= id
 ```
 
-> Behavior: <br>
-> `FUN-EXP` defines a function. When a function is called, bind `FUN-ID`s to `PARAM`s, just like the define statement. If an id has been defined outside this function, prefer the definition inside the `FUN-EXP`. The variable definitions inside a function should not affect the outer scope. A `FUN-CALL` returns the evaluated result of `FUN-BODY`. Note that variables used in `FUN-BODY` should be bound to
+Behavior:
+
+`FUN-EXP` defines a function. When a function is called, bind `FUN-ID`s to `PARAM`s, just like the define statement. If an id has been defined outside this function, prefer the definition inside the `FUN-EXP`. The variable definitions inside a function should not affect the outer scope. A `FUN-CALL` returns the evaluated result of `FUN-BODY`. Note that variables used in `FUN-BODY` should be bound to
 `PARAM`s.
 
-> Examples:
-> ``` lisp
-> ((fun (x) (+ x 1)) 2) ; → 3
-> (define foo (fun () 0))
-> (foo) ; → 0
-> (define x 1)
-> (define bar (fun (x y) (+ x y)))
-> (bar 2 3) ; → 5
-> x ; → 1
-> ```
+Examples:
 
-# `if` Expression
+``` lisp
+((fun (x) (+ x 1)) 2) ; → 3
+(define foo (fun () 0))
+(foo) ; → 0
+(define x 1)
+(define bar (fun (x y) (+ x y)))
+(bar 2 3) ; → 5
+x ; → 1
+```
 
-``` ebfn
+### `if` Expression
+
+``` ebnf
 IF-EXP ::= (if TEST-EXP THEN-EXP ELSE-EXP)
 TEST-EXP ::= EXP
 THEN-EXP ::= EXP
 ELSE-EXP ::= EXP
 ```
 
-> Behavior: When `TEST-EXP` is true, returns `THEN-EXP`. Otherwise, returns `ELSE-EXP`.
+Behavior: When `TEST-EXP` is true, returns `THEN-EXP`. Otherwise, returns `ELSE-EXP`.
 
-> Example:
-> ``` lisp
-> (if (= 1 0) 1 2)  ; → 2
-> (if #t 1 2)   ; → 1
-> ```
+Example:
 
-## Bonus Features
+``` lisp
+(if (= 1 0) 1 2)  ; → 2
+(if #t 1 2)   ; → 1
+```
+
+## Bonus Features Details
 
 ### Recursion
 
@@ -431,7 +426,7 @@ For type specifications of operations, please check out the table below:
 There could be a function inside another function. The inner one is able to access the local variables of the outer function.
 
 > The syntax rule of `fun-body` should be redefined to
-> ```
+> ``` ebnf
 > fun-body ::= def-stmt* exp
 > ```
 
