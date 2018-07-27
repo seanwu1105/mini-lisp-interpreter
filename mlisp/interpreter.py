@@ -158,7 +158,7 @@ def interpret_ast(node, environment=GlobalEnvironment()):
             return environment.find(node)[node]
 
         # program : stmt+
-        elif node.data == 'program':
+        if node.data == 'program':
             for child in node.children:
                 interpret_ast(child, environment)
 

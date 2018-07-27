@@ -1,11 +1,14 @@
-image: python
+image: python:3.6
+
+before_script:
+  - python3 -m pip install -r requirements.txt
 
 features:
   script:
-    - python3 -m pip install -r requirements.txt
+    - - python3 -m pip install nose2
     - nose2 tests.test_features -v
 
-codequality:
+pylint:
   script:
-    - python3 -m pip install -r requirements.txt
+    - python3 -m pip install pylint
     - pylint mlisp/
