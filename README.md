@@ -49,7 +49,15 @@ cd mini-lisp-interpreter/
 Feed the Mini-LISP source codes into the interpreter as standard input file
 
 ``` bash
-python mini_lisp.py < filename.lsp
+python main.py < filename.lsp
+```
+
+Or import the `Interpreter` class in `mlisp` folder and call the `Interpreter().interpret(your_mini_lisp_code)`.
+
+For example:
+
+``` python
+mlisp.Interpreter().interpret(r'(print-num (mod 10 4))')
 ```
 
 ## Dependencies

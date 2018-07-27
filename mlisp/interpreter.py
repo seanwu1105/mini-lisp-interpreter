@@ -1,5 +1,23 @@
 import functools
+import logging
 import operator
+
+from lark import Lark, UnexpectedInput, UnexpectedToken, UnexpectedCharacters
+
+
+class Interpreter(object):
+    def __init__(self):
+        with open('mlisp/grammar.lark') as f:
+            self.parser = Lark(f, start='program',
+                               parser='lalr', lexer='contextual')
+
+    def interpret(self, code):
+        try:
+            self.tree = self.parser.parse(code)
+        except (UnexpectedInput, UnexpectedToken, UnexpectedCharacters):
+            raise SyntaxError('Mini-lisp syntax error.')
+        else:
+            return interpret_ast(self.tree)
 
 
 class Environment(dict):
@@ -22,10 +40,8 @@ class Environment(dict):
 
     def find(self, name):
         """ Get the innermost environment where the symbol name appears. """
-        # print(name, name in self, self.outer)
         if name not in self and self.outer is None:
-            print("Name Error: %s is not defined" % name)
-            exit(1)
+            raise NameError("%s is not defined" % name)
         return self if name in self else self.outer.find(name)
 
 
@@ -96,13 +112,11 @@ class GlobalEnvironment(Environment):
 
     def number_type_checker(self, args):
         if not all(type(arg) is int for arg in args):
-            print("Type Error: Expect 'number' but got 'boolean'.")
-            exit(1)
+            raise TypeError("Expect 'number' but got 'boolean'.")
 
     def boolean_type_checker(self, args):
         if not all(type(arg) is bool for arg in args):
-            print("Type Error: Expect 'boolean' but got 'number'.")
-            exit(1)
+            raise TypeError("Expect 'boolean' but got 'number'.")
 
 
 class Function(object):
@@ -112,11 +126,11 @@ class Function(object):
         self.args, self.body, self.environment = args, body, environment
 
     def __call__(self, *params):
-        return interpret(self.body, Environment(self.args, params, self.environment))
+        return interpret_ast(self.body, Environment(self.args, params, self.environment))
 
 
-def interpret(node, environment=GlobalEnvironment()):
-    """ Interpret the mini-lisp.
+def interpret_ast(node, environment=GlobalEnvironment()):
+    """ Interpret the AST of mini-lisp.
 
     Arguments:
         node {Tree or Token} -- The current dealing object.
@@ -143,28 +157,27 @@ def interpret(node, environment=GlobalEnvironment()):
         # program : stmt+
         elif node.data == 'program':
             for child in node.children:
-                interpret(child, environment)
+                interpret_ast(child, environment)
 
         # if_exp : test_exp then_exp else_exp
         elif node.data == 'if_exp':
             (test, then, els) = node.children
-            test_res = interpret(test, environment)
+            test_res = interpret_ast(test, environment)
             # type checking -> test_exp should be boolean
             if not isinstance(test_res, bool):
-                print("Type Error: Expect 'boolean' but got 'number'.")
-                exit(1)
+                raise TypeError("Expect 'boolean' but got 'number'.")
             expr = then if test_res else els
-            return interpret(expr, environment)
+            return interpret_ast(expr, environment)
 
         # def_stmt : ( variable exp )
         elif node.data == 'def_stmt':
             (var, expr) = node.children
-            environment[var] = interpret(expr, environment)
+            environment[var] = interpret_ast(expr, environment)
 
         # fun_exp : ( fun_ids fun_body )
         elif node.data == 'fun_exp':
-            args = interpret(node.children[0])
-            body = interpret(node.children[-1])
+            args = interpret_ast(node.children[0])
+            body = interpret_ast(node.children[-1])
             return Function(args, body, environment)
 
         # simply return all arguments (ids)
@@ -175,20 +188,20 @@ def interpret(node, environment=GlobalEnvironment()):
         elif node.data == 'fun_body':
             # deal with define statements
             for def_stmt in node.children[:-1]:
-                interpret(def_stmt)
+                interpret_ast(def_stmt)
             # return the expresion (the actual function body)
             return node.children[-1]
 
         # get the user-defined function with arguments and then execute it
         elif node.data == 'fun_call':
-            proc = interpret(node.children[0], environment)
-            args = tuple(interpret(expr, environment)
+            proc = interpret_ast(node.children[0], environment)
+            args = tuple(interpret_ast(expr, environment)
                          for expr in node.children[1:])
             return proc(*args)
 
         # execute the function got from environment dict
         else:
-            proc = interpret(node.data, environment)
-            args = tuple(interpret(expr, environment)
+            proc = interpret_ast(node.data, environment)
+            args = tuple(interpret_ast(expr, environment)
                          for expr in node.children)
             return proc(*args)
