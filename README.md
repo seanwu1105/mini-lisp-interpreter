@@ -1,5 +1,8 @@
 # Mini-Lisp Interpreter
 
+[![pipeline status](https://gitlab.com/GLaDOS1105/mini-lisp-interpreter/badges/master/pipeline.svg)](https://gitlab.com/GLaDOS1105/mini-lisp-interpreter/commits/master)
+[![coverage report](https://gitlab.com/GLaDOS1105/mini-lisp-interpreter/badges/master/coverage.svg)](https://gitlab.com/GLaDOS1105/mini-lisp-interpreter/commits/master)
+
 Mini-LISP is the subset of LISP. You can find the grammar rules in the README.md file. This is the final project of Compiler in NCU, Taiwan.
 
 ## Overview
