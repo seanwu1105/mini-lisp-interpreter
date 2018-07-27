@@ -4,7 +4,7 @@ import mlisp
 
 
 def main():
-    print(mlisp.Interpreter().interpret(sys.stdin.read()))
+    mlisp.Interpreter().interpret(sys.stdin.read())
 
 
 if __name__ == '__main__':

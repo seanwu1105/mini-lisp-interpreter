@@ -5,7 +5,7 @@ import operator
 from lark import Lark, UnexpectedInput, UnexpectedToken, UnexpectedCharacters
 
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 
 class Interpreter(object):
@@ -163,8 +163,13 @@ def interpret_ast(node, environment=GlobalEnvironment()):
 
         # program : stmt+
         if node.data == 'program':
+            ret = list()
             for child in node.children:
-                interpret_ast(child, environment)
+                result = interpret_ast(child, environment)
+                logging.debug(result)
+                if result is not None:
+                    ret.append(result)
+            return ret
 
         # if_exp : test_exp then_exp else_exp
         elif node.data == 'if_exp':
