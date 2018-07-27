@@ -5,7 +5,7 @@ before_script:
 
 features:
   script:
-    - - python3 -m pip install nose2
+    - python3 -m pip install nose2
     - nose2 tests.test_features -v
 
 pylint:
