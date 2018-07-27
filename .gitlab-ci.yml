@@ -8,6 +8,7 @@ features:
     - python3 -m pip install nose2
     - nose2 tests.test_features -v
 
-  pylint:
+pylint:
+  script:
     - python3 -m pip install pylint
     - pylint --errors-only mlisp/
