@@ -1,5 +1,4 @@
 import functools
-import logging
 import operator
 
 from lark import Lark, UnexpectedInput, UnexpectedToken, UnexpectedCharacters
@@ -7,8 +6,9 @@ from lark import Lark, UnexpectedInput, UnexpectedToken, UnexpectedCharacters
 
 class Interpreter(object):
     def __init__(self):
-        with open('mlisp/grammar.lark') as f:
-            self.parser = Lark(f, start='program',
+        self.tree = None
+        with open('mlisp/grammar.lark') as larkfile:
+            self.parser = Lark(larkfile, start='program',
                                parser='lalr', lexer='contextual')
 
     def interpret(self, code):
@@ -31,6 +31,7 @@ class Environment(dict):
             symbol_values {iterable} -- The content of symbols (default: {None})
             outer {Environment instance} -- The outer environment (default: {None})
         """
+        super().__init__(self)
 
         if symbol_names is None:
             symbol_names = tuple()
@@ -51,7 +52,7 @@ class GlobalEnvironment(Environment):
     def __init__(self):
         super().__init__()
         self.update({
-            'print_num': lambda x: print(x),
+            'print_num': print,
             'print_bool': lambda x: print('#t' if x else '#f'),
             'plus': self.plus,
             'minus': self.minus,
@@ -110,11 +111,13 @@ class GlobalEnvironment(Environment):
         self.boolean_type_checker([arg])
         return not arg
 
-    def number_type_checker(self, args):
+    @staticmethod
+    def number_type_checker(args):
         if not all(type(arg) is int for arg in args):
             raise TypeError("Expect 'number' but got 'boolean'.")
 
-    def boolean_type_checker(self, args):
+    @staticmethod
+    def boolean_type_checker(args):
         if not all(type(arg) is bool for arg in args):
             raise TypeError("Expect 'boolean' but got 'number'.")
 
