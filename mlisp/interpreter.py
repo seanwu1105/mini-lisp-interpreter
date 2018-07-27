@@ -1,7 +1,11 @@
 import functools
+import logging
 import operator
 
 from lark import Lark, UnexpectedInput, UnexpectedToken, UnexpectedCharacters
+
+
+logging.basicConfig(level=logging.DEBUG)
 
 
 class Interpreter(object):

@@ -12,3 +12,4 @@ pylint:
   script:
     - python3 -m pip install pylint
     - pylint mlisp/
+  allow_failure: true
