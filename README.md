@@ -1,8 +1,8 @@
 # Mini-Lisp Interpreter
 
-[![pipeline status](https://gitlab.com/GLaDOS1105/mini-lisp-interpreter/badges/master/pipeline.svg)](https://gitlab.com/GLaDOS1105/mini-lisp-interpreter/commits/master)
-[![coverage report](https://gitlab.com/GLaDOS1105/mini-lisp-interpreter/badges/master/coverage.svg)](https://gitlab.com/GLaDOS1105/mini-lisp-interpreter/commits/master)
-[![Requirements Status](https://requires.io/github/GLaDOS1105/mini-lisp-interpreter/requirements.svg?branch=master)](https://requires.io/github/GLaDOS1105/mini-lisp-interpreter/requirements/?branch=master)
+[![pipeline status](https://gitlab.com/seanwu1105/mini-lisp-interpreter/badges/master/pipeline.svg)](https://gitlab.com/seanwu1105/mini-lisp-interpreter/commits/master)
+[![coverage report](https://gitlab.com/seanwu1105/mini-lisp-interpreter/badges/master/coverage.svg)](https://gitlab.com/seanwu1105/mini-lisp-interpreter/commits/master)
+[![Requirements Status](https://requires.io/github/seanwu1105/mini-lisp-interpreter/requirements.svg?branch=master)](https://requires.io/github/seanwu1105/mini-lisp-interpreter/requirements/?branch=master)
 
 Mini-LISP is the subset of LISP. You can find the grammar rules in the README.md file. This is the final project of Compiler in NCU, Taiwan.
 
@@ -41,7 +41,7 @@ As a simplified language, Mini-LISP has only three types (Boolean, number and fu
 Clone the project
 
 ``` bash
-git clone https://gitlab.com/GLaDOS1105/mini-lisp-interpreter.git
+git clone https://gitlab.com/seanwu1105/mini-lisp-interpreter.git
 ```
 
 Change directory to project folder
