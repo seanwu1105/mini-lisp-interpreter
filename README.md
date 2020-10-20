@@ -1,7 +1,6 @@
 # Mini-Lisp Interpreter
 
-[![pipeline status](https://gitlab.com/seanwu1105/mini-lisp-interpreter/badges/master/pipeline.svg)](https://gitlab.com/seanwu1105/mini-lisp-interpreter/commits/master)
-[![coverage report](https://gitlab.com/seanwu1105/mini-lisp-interpreter/badges/master/coverage.svg)](https://gitlab.com/seanwu1105/mini-lisp-interpreter/commits/master)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/365eb40f2c1042a7acf39a8c54db0b26)](https://www.codacy.com/gh/seanwu1105/mini-lisp-interpreter/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=seanwu1105/mini-lisp-interpreter&amp;utm_campaign=Badge_Grade)
 [![Requirements Status](https://requires.io/github/seanwu1105/mini-lisp-interpreter/requirements.svg?branch=master)](https://requires.io/github/seanwu1105/mini-lisp-interpreter/requirements/?branch=master)
 
 Mini-LISP is the subset of LISP. You can find the grammar rules in the README.md file. This is the final project of Compiler in NCU, Taiwan.
@@ -38,39 +37,36 @@ As a simplified language, Mini-LISP has only three types (Boolean, number and fu
 
 ## Usage
 
-Clone the project
+Clone the project.
 
 ``` bash
-git clone https://gitlab.com/seanwu1105/mini-lisp-interpreter.git
+git clone https://github.com/seanwu1105/mini-lisp-interpreter
 ```
 
-Change directory to project folder
+Change directory to project folder.
 
 ``` bash
 cd mini-lisp-interpreter/
 ```
 
-Feed the Mini-LISP source codes into the interpreter as standard input file
+Install the dependencies with Poetry.
+
+``` bash
+poetry install --no-root
+```
+
+Feed the Mini-LISP source codes into the interpreter as standard input file.
 
 ``` bash
 python main.py < filename.lsp
 ```
 
-Or import the `Interpreter` class in `mlisp` folder and call the `Interpreter().interpret(your_mini_lisp_code)`.
+Or import the `Interpreter` class in `mini_lisp_interpreter` folder and call the `Interpreter().interpret(your_mini_lisp_code)`.
 
 For example:
 
 ``` python
-mlisp.Interpreter().interpret(r'(print-num (mod 10 4))')
-```
-
-## Dependencies
-
-* Python3
-* [Lark Parser](https://github.com/lark-parser/lark)
-
-``` bash
-pip install lark-parser
+mini_lisp_interpreter.Interpreter().interpret(r'(print-num (mod 10 4))')
 ```
 
 ## Type Definition

@@ -1,10 +1,9 @@
 import sys
-
-import mlisp
+import mini_lisp_interpreter
 
 
 def main():
-    mlisp.Interpreter().interpret(sys.stdin.read())
+    mini_lisp_interpreter.Interpreter().interpret(sys.stdin.read())
 
 
 if __name__ == '__main__':

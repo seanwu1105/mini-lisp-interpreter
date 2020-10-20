@@ -1,0 +1,36 @@
+name: build
+
+on: [push, pull_request]
+
+jobs:
+  prototype-jpeg:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Set up Poetry
+        run: |
+          curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
+          echo "PATH=$HOME/.poetry/bin:$PATH" >> $GITHUB_ENV
+
+      - name: Install dependencies
+        run: poetry install --no-root
+
+      - name: Lint
+        run: |
+          poetry run python -m pylint mini_lisp_interpreter/
+          poetry run python -m mypy --ignore-missing-import mini_lisp_interpreter/
+
+      - name: Test
+        run: poetry run python -m pytest -v --cov-report xml --cov=mini_lisp_interpreter tests/
+
+      - name: Upload coverage report to Codacy
+        uses: codacy/codacy-coverage-reporter-action@master
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: coverage.xml

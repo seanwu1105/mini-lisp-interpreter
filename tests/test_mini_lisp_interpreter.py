@@ -1,9 +1,11 @@
 import io
-import logging
 import unittest
 from unittest import mock
+from mini_lisp_interpreter import __version__, Interpreter
 
-from mlisp import Interpreter
+
+def test_version():
+    assert __version__ == '0.1.0'
 
 
 class TestInterpreter(unittest.TestCase):

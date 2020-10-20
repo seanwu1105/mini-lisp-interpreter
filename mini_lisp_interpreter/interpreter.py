@@ -8,18 +8,18 @@ from lark import Lark, UnexpectedInput, UnexpectedToken, UnexpectedCharacters
 logging.basicConfig(level=logging.INFO)
 
 
-class Interpreter(object):
+class Interpreter:
     def __init__(self):
         self.tree = None
-        with open('mlisp/grammar.lark') as larkfile:
+        with open('mini_lisp_interpreter/grammar.lark') as larkfile:
             self.parser = Lark(larkfile, start='program',
                                parser='lalr', lexer='contextual')
 
     def interpret(self, code):
         try:
             self.tree = self.parser.parse(code)
-        except (UnexpectedInput, UnexpectedToken, UnexpectedCharacters):
-            raise SyntaxError('Mini-lisp syntax error.')
+        except (UnexpectedInput, UnexpectedToken, UnexpectedCharacters) as exception:
+            raise SyntaxError('Mini-lisp syntax error.') from exception
         else:
             return interpret_ast(self.tree)
 
@@ -117,16 +117,16 @@ class GlobalEnvironment(Environment):
 
     @staticmethod
     def number_type_checker(args):
-        if not all(type(arg) is int for arg in args):
+        if not all(type(arg) is int for arg in args):  # pylint: disable=unidiomatic-typecheck
             raise TypeError("Expect 'number' but got 'boolean'.")
 
     @staticmethod
     def boolean_type_checker(args):
-        if not all(type(arg) is bool for arg in args):
+        if not all(type(arg) is bool for arg in args):  # pylint: disable=unidiomatic-typecheck
             raise TypeError("Expect 'boolean' but got 'number'.")
 
 
-class Function(object):
+class Function:
     """ A user-defined scheme function. """
 
     def __init__(self, args, body, environment=GlobalEnvironment()):
@@ -172,17 +172,21 @@ def interpret_ast(node, environment=GlobalEnvironment()):
             return ret
 
         # if_exp : test_exp then_exp else_exp
-        elif node.data == 'if_exp':
+        if node.data == 'if_exp':
             (test, then, els) = node.children
             test_res = interpret_ast(test, environment)
             # type checking -> test_exp should be boolean
-            if not isinstance(test_res, bool):
-                raise TypeError("Expect 'boolean' but got 'number'.")
+            try:
+                assert isinstance(test_res, bool)
+            except AssertionError as exception:
+                raise TypeError(
+                    "Expect 'boolean' but got 'number'."
+                ) from exception
             expr = then if test_res else els
             return interpret_ast(expr, environment)
 
         # def_stmt : ( variable exp )
-        elif node.data == 'def_stmt':
+        if node.data == 'def_stmt':
             (var, expr) = node.children
             environment[var] = interpret_ast(expr, environment)
 
