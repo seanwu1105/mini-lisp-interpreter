@@ -1,9 +1,6 @@
 # Mini-Lisp Interpreter
 
 [![build](https://github.com/seanwu1105/mini-lisp-interpreter/workflows/build/badge.svg)](https://github.com/seanwu1105/mini-lisp-interpreter/actions?query=workflow%3Abuild)
-[![Codacy Badge](https://app.codacy.com/project/badge/Coverage/365eb40f2c1042a7acf39a8c54db0b26)](https://www.codacy.com/gh/seanwu1105/mini-lisp-interpreter/dashboard?utm_source=github.com&utm_medium=referral&utm_content=seanwu1105/mini-lisp-interpreter&utm_campaign=Badge_Coverage)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/365eb40f2c1042a7acf39a8c54db0b26)](https://www.codacy.com/gh/seanwu1105/mini-lisp-interpreter/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=seanwu1105/mini-lisp-interpreter&amp;utm_campaign=Badge_Grade)
-[![Requirements Status](https://requires.io/github/seanwu1105/mini-lisp-interpreter/requirements.svg?branch=master)](https://requires.io/github/seanwu1105/mini-lisp-interpreter/requirements/?branch=master)
 
 Mini-LISP is the subset of LISP. You can find the grammar rules in the README.md file. This is the final project of Compiler in NCU, Taiwan.
 
